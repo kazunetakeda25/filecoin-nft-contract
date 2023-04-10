@@ -86,9 +86,9 @@ contract StarboardNFT is ERC721, Ownable2Step {
 
         return string.concat(
             "data:application/json,",
-            "{\"name\":\"FilecoinDealCertificate #\",",
+            "{\"name\":\"StarboardNFT #\",",
             Strings.toString(tokenId_),
-            "\"description\":\"This is an NFT that proves that a file coin storage deal has taken place.\",",
+            "\"description\":\"This is a test Starboard collection NFT.\",",
             "\"image\":\"https://picsum.photos/800\"",
             "}"
         );
