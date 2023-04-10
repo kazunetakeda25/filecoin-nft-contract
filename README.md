@@ -67,3 +67,50 @@ yarn
 ```
 yarn dev
 ```
+
+## Contract architecture
+### Metadata struct
+On-chain metadata struct
+```
+struct Metadata {
+  uint64 dealId; // Deal ID
+  bytes data; // Data
+  uint64 size; // Size of the metadata
+  uint64 clientActorId; // Client actor ID
+  uint64 providerActorId; // Provider actor ID
+}
+```
+Only owner can mint NFTs, need to specify dealId in order to get deal data commitment.
+When Deal data exists, this means the token is already minted.
+From the deal ID, we can get client actor ID and provider actor ID.
+We store metadata using those information.
+Otherwise, it is same as normal ERC721 mint.
+```
+function mint(uint64 dealId_) external onlyOwner {
+  uint256 tokenId = _tokenIdCounter.current();
+
+  MarketTypes.GetDealDataCommitmentReturn memory dealCommitment = MarketAPI
+    .getDealDataCommitment(dealId_);
+
+  if (_dataToTokenIds[dealCommitment.data] != 0) {
+    revert TokenAlreadyMinted();
+  }
+
+  _dataToTokenIds[dealCommitment.data] = tokenId;
+
+  uint64 clientActorId = MarketAPI.getDealClient(dealId_);
+  uint64 providerActorId = MarketAPI.getDealProvider(dealId_);
+
+  _metadata[tokenId] = Metadata(
+    dealId_,
+    dealCommitment.data,
+    dealCommitment.size,
+    clientActorId,
+    providerActorId
+  );
+
+  _tokenIdCounter.increment();
+
+  _mint(msg.sender, tokenId);
+}
+```
