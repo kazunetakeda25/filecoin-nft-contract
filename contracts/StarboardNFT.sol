@@ -7,9 +7,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 // Zondax
-import {MarketAPI} from "@zondax/filecoin-solidity/contracts/v0.8/MarketAPI.sol";
-import {MarketTypes} from "@zondax/filecoin-solidity/contracts/v0.8/types/MarketTypes.sol";
-
+import "@zondax/filecoin-solidity/contracts/v0.8/MarketAPI.sol";
+                         
 // Errors
 error TokenAlreadyMinted();
 error TokenNotExist();
@@ -90,7 +89,7 @@ contract StarboardNFT is ERC721, Ownable2Step {
             "{\"name\":\"FilecoinDealCertificate #\",",
             Strings.toString(tokenId_),
             "\"description\":\"This is an NFT that proves that a file coin storage deal has taken place.\",",
-            "\"image\":\"https://i.imgur.com/H3BiGyG.png\"",
+            "\"image\":\"https://picsum.photos/800\"",
             "}"
         );
     }
